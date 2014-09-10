@@ -1,0 +1,4 @@
+Exception
+=========
+
+Basic Exception Class
