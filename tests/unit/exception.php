@@ -36,6 +36,22 @@ class exceptionTest extends PHPUnit_Framework_TestCase
     $this->assertFalse(TestException::GetNameForCode(3, 'ololo'), 'Несуществующий код ошибки');
   }
 
+  function testCreate()
+  {
+    $e1 = TestException::Create(TestException::ERR_ONE);
+    $this->assertEquals(TestException::ERR_ONE, $e1->getCode(), 'Код ошибки №1');
+    $this->assertEquals('Текст ошибки номер один', $e1->getMessage(), 'Текст ошибки №1');
+
+    $exp = 'Текст ошибки #2 с подстановкой значений';
+
+    $e2 = TestException::Create(TestException::ERR_TWO, '#2', 'значений');
+    $this->assertEquals(TestException::ERR_TWO, $e2->getCode(), 'Код ошибки №2');
+    $this->assertEquals($exp, $e2->getMessage(), 'Текст ошибки №2 из аргументов функции');
+
+    $e3 = TestException::Create(TestException::ERR_TWO, array('#2', 'значений'));
+    $this->assertEquals($exp, $e3->getMessage(), 'Текст ошибки №2 с значениями из массива');
+  }
+
   function testThrowError()
   {
     try {

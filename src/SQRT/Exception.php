@@ -31,6 +31,24 @@ class Exception extends \Exception
   }
 
   /**
+   * Создание исключения с текстом ошибки
+   *
+   * @return static
+   */
+  public static function Create($code, $args = null, $_ = null)
+  {
+    if (!is_null($args)) {
+      if (!is_array($args)) {
+        $args = array_slice(func_get_args(), 1);
+      }
+    }
+
+    $str = static::GetNameForCode($code, $args);
+
+    return new static($str, $code);
+  }
+
+  /**
    * Выброс исключения с текстом ошибки
    *
    * @throws static
@@ -43,8 +61,6 @@ class Exception extends \Exception
       }
     }
 
-    $str = static::GetNameForCode($code, $args);
-
-    throw new static($str, $code);
+    throw static::Create($code, $args);
   }
 }
